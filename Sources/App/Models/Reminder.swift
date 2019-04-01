@@ -15,3 +15,4 @@ final class Reminder: Codable {
 extension Reminder: SQLiteModel { }
 extension Reminder: Content { }
 extension Reminder: Migration { }
+extension Reminder: Parameter { }
