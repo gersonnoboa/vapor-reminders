@@ -9,10 +9,9 @@ struct RemindersController: RouteCollection {
     }
     
     func createHandler(_ req: Request) throws -> Future<Reminder> {
-        return try req.content.decode(Reminder.self)
-            .flatMap(to: Reminder.self) { reminder in
-            return reminder.save(on: req)
-        }
+        return try req.content
+            .decode(Reminder.self)
+            .save(on: req)
     }
     
     func getAllHandler(_ req: Request) throws -> Future<[Reminder]> {
