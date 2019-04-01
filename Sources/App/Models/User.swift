@@ -23,6 +23,12 @@ struct CreateDefaultUser: SQLiteMigration {
     }
 }
 
+extension User {
+    var reminders: Children<User, Reminder> {
+        return children(\.userId)
+    }
+}
+
 extension User: SQLiteModel {}
 extension User: Content {}
 extension User: Migration {}

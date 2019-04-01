@@ -12,6 +12,12 @@ final class Reminder: Codable {
     }
 }
 
+extension Reminder {
+    var user: Parent<Reminder, User> {
+        return parent(\.userId)
+    }
+}
+
 extension Reminder: SQLiteModel { }
 extension Reminder: Content { }
 extension Reminder: Migration { }
