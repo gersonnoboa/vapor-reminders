@@ -8,6 +8,7 @@ struct UsersController: RouteCollection {
         usersRoute.get(User.parameter, use: getSingleHandler)
         usersRoute.delete(User.parameter, use: deleteHandler)
         usersRoute.put(User.self, at: User.parameter, use: updateHandler)
+        usersRoute.get(User.parameter, "reminders", use: getRemindersHandler)
     }
     
     func createHandler(_ req: Request) throws -> Future<User> {
@@ -41,5 +42,12 @@ struct UsersController: RouteCollection {
                 
                 return user.save(on: req)
             }
+    }
+    
+    func getRemindersHandler(_ req: Request) throws -> Future<[Reminder]> {
+        return try req.parameters.next(User.self)
+            .flatMap(to: [Reminder].self) { user in
+            return try user.reminders.query(on: req).all()
+        }
     }
 }
