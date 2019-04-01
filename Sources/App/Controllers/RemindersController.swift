@@ -6,6 +6,7 @@ struct RemindersController: RouteCollection {
         remindersRoute.post(use: createHandler)
         remindersRoute.get(use: getAllHandler)
         remindersRoute.get(Reminder.parameter, use: getSingleHandler)
+        remindersRoute.get(Reminder.parameter, "user", use: getUser)
     }
     
     func createHandler(_ req: Request) throws -> Future<Reminder> {
@@ -21,5 +22,13 @@ struct RemindersController: RouteCollection {
     func getSingleHandler(_ req: Request) throws -> Future<Reminder> {
         let user = try req.parameters.next(Reminder.self)
         return user
+    }
+    
+    func getUser(_ req: Request) throws -> Future<User> {
+        return try req.parameters
+            .next(Reminder.self)
+            .flatMap(to: User.self) { reminder in
+                return reminder.user.get(on: req)
+            }
     }
 }
