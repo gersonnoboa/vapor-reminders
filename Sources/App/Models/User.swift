@@ -12,6 +12,17 @@ final class User: Codable {
     }
 }
 
+struct CreateDefaultUser: SQLiteMigration {
+    static func prepare(on conn: SQLiteConnection) -> EventLoopFuture<Void> {
+        let user = User(name: "Gerson", username: "gersonnoboa")
+        return user.save(on: conn).transform(to: ())
+    }
+    
+    static func revert(on conn: SQLiteConnection) -> EventLoopFuture<Void> {
+        return .done(on: conn)
+    }
+}
+
 extension User: SQLiteModel {}
 extension User: Content {}
 extension User: Migration {}
