@@ -50,6 +50,9 @@ public func routes(_ router: Router) throws {
     
     let remindersController = RemindersController()
     try router.register(collection: remindersController)
+    
+    let categoriesController = CategoriesController()
+    try router.register(collection: categoriesController)
 }
 
 struct Bottles: Content {
